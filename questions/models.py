@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Question(models.Model):
-    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=False,  on_delete=models.CASCADE)
     title = models.CharField(max_length=200, null=False)
     body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,8 +18,8 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, null=False, on_delete=models.CASCADE, related_name='responses')
+    user = models.ForeignKey(User, null=False, blank=True, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, null=False, on_delete=models.CASCADE, related_name='answers')
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -28,5 +28,5 @@ class Answer(models.Model):
     def __str__(self):
         return self.body
 
-    def get_responses(self):
+    def get_answers(self):
         return Answer.objects.filter(parent=self)

@@ -20,9 +20,10 @@ class QuestionAPIView(APIView):
     def post(self, request, *args, **kwargs):
 
         data = {
-            'user': request.user.id,
+            
             'title': request.data.get('title'),
-            'body': request.data.get('body')
+            'body': request.data.get('body'),
+            'user': request.data.get('user')
         }
 
         serializer = QuestionSerializer(data=data)
@@ -45,7 +46,8 @@ class AnswerAPIView(APIView):
     def post(self, request, *args, **kwargs):
 
         data = {
-            'user': request.user.id,
+            'user': request.data.get('user'),
+            'question': request.data.get('question'),
             'parent': request.data.get('parent'),
             'body': request.data.get('body')
         }
